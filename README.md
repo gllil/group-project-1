@@ -1,2 +1,21 @@
-# group-project
-This is our first class project. 
+Readme template
+
+Screenshot goes here
+
+# Description
+
+
+
+#  Technologies
+
+
+
+# Challenges
+
+
+# Demo
+
+
+
+# License
+
