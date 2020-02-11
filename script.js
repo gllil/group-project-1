@@ -22,7 +22,7 @@ function addPercent(name){
     return name.trim().replace(" ", "%20").toLowerCase(); 
 }
 
-$("#actorName").on("submit",function(e){
+$("#actorName").on("change",function(e){
     e.preventDefault();
     console.log("listerworks");
     nameCall = $(this).val();
