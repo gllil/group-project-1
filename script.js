@@ -6,6 +6,7 @@ const basePosterURL = "https://image.tmdb.org/t/p/w92";
 var nameCall = "";
 
 
+
 // sample google call:
 // https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
 
@@ -21,19 +22,22 @@ function addPercent(name){
     return name.trim().replace(" ", "%20").toLowerCase(); 
 }
 
-$("#actorName").on("change",function(e){
-    //e.preventDefault();
+$("#actorName").on("submit",function(e){
+    e.preventDefault();
+    console.log("listerworks");
     nameCall = $(this).val();
     nameCall = addPercent(nameCall);
+    console.log(nameCall);
     tmdbURL = movieBaseURL + nameCall;
     $.ajax({
         url: tmdbURL,
         method: "GET"
     }).then(function(resp1){
+        
         if(resp1.total_results===0){
             alert("No Such Actor");
         } else {
-
+            console.log(resp1);
         picJPG_URL = resp1.results[0].profile_path;
         $("#actorPic").attr("src",basePicURL+picJPG_URL);
         }
