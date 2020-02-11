@@ -22,10 +22,10 @@ function addPercent(name){
     return name.trim().replace(" ", "%20").toLowerCase(); 
 }
 
-$("#actorName").on("change",function(e){
+$(".actorName").on("submit",function(e){
     e.preventDefault();
     console.log("listerworks");
-    nameCall = $(this).val();
+    nameCall = $("#actorName").val();
     nameCall = addPercent(nameCall);
     console.log(nameCall);
     tmdbURL = movieBaseURL + nameCall;
