@@ -23,8 +23,9 @@ function addPercent(name){
 }
 
 $(".actorName").on("submit",function(e){
+    $("#movieInfo").empty();
     e.preventDefault();
-    console.log("listerworks");
+    console.log("listenerworks");
     nameCall = $("#actorName").val();
     nameCall = addPercent(nameCall);
     console.log(nameCall);
