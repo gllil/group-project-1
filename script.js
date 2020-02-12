@@ -1,6 +1,7 @@
 const googleAPI = "AIzaSyAPYPaD6KUcr9TJRJKDH80BXOuyc1trMVM";
 const googleAPI2 = "AIzaSyDertWPMLprqokh3GH_JSEmZr_2v9Uz7xU";
 const movieAPI = "766b047e79a6c5e6f6421d09567397ca";
+const NYT_API ="Gu7WmhhKbLtSXGAj5Pb7hw5QpCcSOTQG"
 const movieBaseURL = "https://api.tmdb.org/3/search/person?api_key="+movieAPI+"&query=";
 var idBaseURL = "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US"
 const basePicURL = "https://image.tmdb.org/t/p/w300";
@@ -39,7 +40,13 @@ function centerMap(city) {
     var geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 0, lng: 0},
-      zoom: 8
+      zoom: 8,
+      fullscreenControl: false,
+      linksControl: false,
+      addressControl: false,
+      zoomControl: false,
+      enableCloseButton: false
+
     });
     geocoder.geocode({'address': city}, function(results, status) {
       if (status === 'OK') {
@@ -54,11 +61,21 @@ function addPercent(name){
     return name.trim().replace(" ", "%20").toLowerCase(); 
 }
 
-$("#actorName").on("change",function(e){
+function addPlus(name){
+    return name.trim().replace(" ", "+").toLowerCase();
+}
+
+$("#actorName").keypress(function(e){
     e.preventDefault();
-    nameCall = $(this).val();
-    nameCall = addPercent(nameCall);
-    tmdbURL = movieBaseURL + nameCall;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if(keycode == '13'){
+        nameCall = $(this).val();
+        nameCall1 = addPercent(nameCall);
+        nameCall2 = addPlus(nameCall);
+        tmdbURL = movieBaseURL + nameCall1;
+        e.stopPropagation();
+    }
+
     $.ajax({
         url: tmdbURL,
         method: "GET"
@@ -74,6 +91,7 @@ $("#actorName").on("change",function(e){
         $("#actorPic").attr("src",basePicURL+picJPG_URL);
         }
 
+        $("#movieInfo").empty();
         for(i=0; i<resp1.results[0].known_for.length; i++){
 
             newH6_1=$("<h6>").text(resp1.results[0].known_for[i].title);
@@ -89,13 +107,25 @@ $("#actorName").on("change",function(e){
             url: "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US",
             method:"GET"
         }).then(function(resp2){
+            console.log(resp2);
+            $("#birthDay").text(resp2.birthday);
             console.log(resp2.place_of_birth);
             city=resp2.place_of_birth;
             console.log("city")
             console.log(city);
+            $("#actorBio").text("Actor's Bio: "+resp2.biography);
             if(city){
                 centerMap(city);
             } else {console.log("no city");}
+        }).catch(function(err2){console.log(err2)});
+
+        
+        nytQuery = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=oscars+golden+globe+movie+awards+"+nameCall2+"&sort=newest&api-key="+NYT_API;
+        $.ajax({
+            url: nytQuery,
+            method:"GET"
+        }).then(function(resp3){
+            console.log(resp3);
         })
 
     }).catch(function(err1){
