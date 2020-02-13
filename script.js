@@ -128,7 +128,7 @@ $(".actorName").on("submit", function(e){
             method:"GET"
         }).then(function(resp3){
             console.log(resp3);
-            $("#reviewTitle").text(resp3.results[0].display_tile);
+            $("#reviewTitle").text(resp3.results[0].display_title);
             $("#movieReview").text(resp3.results[0].link.suggested_link_text);
             $("#movieReview").attr("href", resp3.results[0].link.url);
         })
