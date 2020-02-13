@@ -34,6 +34,10 @@ var id = "1234"
 // http://api.wolframalpha.com/v2/query?input=pi&appid=3LX6GV-QWQVKLWGK8
 //nameCall = $("#actorName").text();
 
+function toastAlert(str){
+    M.toast({html:str});
+}
+
 function initMap(){
     centerMap(city);
 }
@@ -53,7 +57,7 @@ function centerMap(city) {
       if (status === 'OK') {
         map.setCenter(results[0].geometry.location);
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        toastAlert('Geocode was not successful for the following reason: ' + status);
       }
     });
   }
@@ -80,7 +84,7 @@ $(".actorName").on("submit", function(e){
     }).then(function(resp1){
         
         if(resp1.total_results===0){
-            alert("No Such Actor");
+            toastAlert("No Such Actor");
         } else {
 
         console.log(resp1);
@@ -132,7 +136,4 @@ $(".actorName").on("submit", function(e){
     }).catch(function(err1){
         console.log(err1);
     });
-
-
-
 });
