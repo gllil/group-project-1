@@ -2,6 +2,7 @@ const googleAPI = "AIzaSyAPYPaD6KUcr9TJRJKDH80BXOuyc1trMVM";
 const googleAPI2 = "AIzaSyDertWPMLprqokh3GH_JSEmZr_2v9Uz7xU";
 const movieAPI = "766b047e79a6c5e6f6421d09567397ca";
 const NYT_API ="Gu7WmhhKbLtSXGAj5Pb7hw5QpCcSOTQG"
+const NYT_API_MOVIES = "d4vyF8ugAJcWXxzo71KTeJlBYsmrUGto"
 const movieBaseURL = "https://api.tmdb.org/3/search/person?api_key="+movieAPI+"&query=";
 var idBaseURL = "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US"
 const basePicURL = "https://image.tmdb.org/t/p/w300";
@@ -31,7 +32,7 @@ var id = "1234"
 
 //wolfram api:3LX6GV-QWQVKLWGK8
 // http://api.wolframalpha.com/v2/query?input=pi&appid=3LX6GV-QWQVKLWGK8
-nameCall = $("#actorName").text();
+//nameCall = $("#actorName").text();
 
 function initMap(){
     centerMap(city);
@@ -65,16 +66,13 @@ function addPlus(name){
     return name.trim().replace(" ", "+").toLowerCase();
 }
 
-$("#actorName").keypress(function(e){
+$(".actorName").on("submit", function(e){
+    nameCall = $("#actorName").val();
+    nameCall1 = addPercent(nameCall);
+    nameCall2 = addPlus(nameCall);
+    tmdbURL = movieBaseURL + nameCall1;
     e.preventDefault();
-    var keycode = (e.keyCode ? e.keyCode : e.which);
-    if(keycode == '13'){
-        nameCall = $(this).val();
-        nameCall1 = addPercent(nameCall);
-        nameCall2 = addPlus(nameCall);
-        tmdbURL = movieBaseURL + nameCall1;
-        e.stopPropagation();
-    }
+    //e.stopPropagation();
 
     $.ajax({
         url: tmdbURL,
@@ -119,13 +117,16 @@ $("#actorName").keypress(function(e){
             } else {console.log("no city");}
         }).catch(function(err2){console.log(err2)});
 
-        
-        nytQuery = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=oscars+golden+globe+movie+awards+"+nameCall2+"&sort=newest&api-key="+NYT_API;
+        //+nameCall2+
+        nytQuery = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query="+nameCall2+"&api-key="+NYT_API_MOVIES;
         $.ajax({
             url: nytQuery,
             method:"GET"
         }).then(function(resp3){
             console.log(resp3);
+            $("#reviewTitle").text(resp3.results[0].display_tile);
+            $("#movieReview").text(resp3.results[0].link.suggested_link_text);
+            $("#movieReview").attr("href", resp3.results[0].link.url);
         })
 
     }).catch(function(err1){
