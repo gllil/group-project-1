@@ -56,6 +56,7 @@ function centerMap(city) {
     geocoder.geocode({'address': city}, function(results, status) {
       if (status === 'OK') {
         map.setCenter(results[0].geometry.location);
+      
       } else {
         toastAlert('Geocode was not successful for the following reason: ' + status);
       }
@@ -87,20 +88,35 @@ $(".actorName").on("submit", function(e){
             toastAlert("No Such Actor");
         } else {
 
+
         console.log(resp1);
         picJPG_URL = resp1.results[0].profile_path;
 
-        $("#actorPic").attr("src",basePicURL+picJPG_URL);
+        /*$("#actorPic").attr("src",basePicURL+picJPG_URL);
+        $("#actorPic").attr("style", "display:block");*/
         }
 
         $("#movieInfo").empty();
         for(i=0; i<resp1.results[0].known_for.length; i++){
 
-            newH6_1=$("<h6>").text(resp1.results[0].known_for[i].title);
-            newH6_2=$("<h6>").text(resp1.results[0].known_for[i].overview);
-            newH6_3=$("<h6>").text(resp1.results[0].known_for[i].release_date);
-            newImg = $("<img>").attr("src",basePosterURL+resp1.results[0].known_for[i].poster_path);
-            $("#movieInfo").append(newImg, newH6_1,newH6_2,newH6_3);
+    htmlBlank = `
+              
+    <div class="card-image waves-effect waves-block waves-light">
+      <img style="width:90%" class="activator" src="`+basePosterURL+resp1.results[0].known_for[i].poster_path+`">
+    </div>
+    <div class="card-content">
+      <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
+      <p>`+"Release Date: "+ resp1.results[0].known_for[i].release_date + `</p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">`+resp1.results[0].known_for[i].title+`<i class="material-icons right">close</i></span>
+      <p>`+ resp1.results[0].known_for[i].overview +`</p>
+    </div>`
+           
+
+            newDiv = $("<div>").html(htmlBlank).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+
+            $("#movieInfo").append(newDiv);
         }
 
         var id = resp1.results[0].id;
@@ -109,15 +125,34 @@ $(".actorName").on("submit", function(e){
             url: "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US",
             method:"GET"
         }).then(function(resp2){
+            htmlAct = `
+            <div class="card-image waves-effect waves-block waves-light">
+            <img style="width:90%; display:block" class="activator" src="`+basePicURL+picJPG_URL+`">
+          </div>
+          <div class="card-content">
+            <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ nameCall +`<i class="material-icons right">more_vert</i></span>
+            <p>`+"Birthday: "+ resp2.birthday + `</p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">`+nameCall+`<i class="material-icons right">close</i></span>
+            <p>`+ resp2.biography +`</p>
+          </div>
+            `
+            newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+            $("#movieInfo").prepend(newDiv2);
+
             console.log(resp2);
-            $("#birthDay").text(resp2.birthday);
-            console.log(resp2.place_of_birth);
+            /*$("#birthDay").text(resp2.birthday);
+            console.log(resp2.place_of_birth);*/
             city=resp2.place_of_birth;
-            console.log("city")
+            /*console.log("city")
             console.log(city);
-            $("#actorBio").text("Actor's Bio: "+resp2.biography);
+            $("#actorBio").text("Actor's Bio: "+resp2.biography);*/
             if(city){
                 centerMap(city);
+
+                $("#homeTown").text("Birthplace: "+city);
+                $("#map").attr("style", "height:200px", "width:200px", "display:block");
             } else {console.log("no city");}
         }).catch(function(err2){console.log(err2)});
 
@@ -128,7 +163,7 @@ $(".actorName").on("submit", function(e){
             method:"GET"
         }).then(function(resp3){
             console.log(resp3);
-            $("#reviewTitle").text(resp3.results[0].display_title);
+            $("#reviewTitle").text(resp3.results[0].display_tile);
             $("#movieReview").text(resp3.results[0].link.suggested_link_text);
             $("#movieReview").attr("href", resp3.results[0].link.url);
         })
