@@ -36,9 +36,7 @@
 
                   <div class="nav-content center-align">
                     <span class="nav-title">Actor Profile</span>
-                    <a class="btn-floating btn-large     halfway-fab waves-effect waves-light">
-                      <i class ="search"></i>
-                    </a>
+                    
                   </div>
 
                   <div class="row">
@@ -48,13 +46,13 @@
                           <input id="actorName" type="text"
                           class="validate">
                           <label for="actorName">Actor Search</label>
-                        </div>
+                        
                         </div>
                       </div>
                     </form>
                   </div>
-                    </div>
-                  </div>  
+                    
+                    
                 </nav>
             </div>
         </div>
@@ -64,17 +62,34 @@
     <div class = "container-fluid">
       <div class = "row">
         <div class = "col s2">
-          <img id = "actorPic"></img>
-          <div id = "map"></div>
-          <div id = "birthDay"></div>
-          <div id = "actorBio"></div>
+          <!--<img style = "display: none" id = "actorPic"></img>-->
+
+
+          <div class="card-image waves-effect waves-block waves-light">
+          <div style = "height: 200px; width: 200px; display: none" id = "map"></div>
         </div>
-        <div class = "col s10">
+        <div class="card-content">
+          <span style="font-size: 110%" class="card-title activator grey-text text-darken-4" id ="homeTown"></span>
+        
+        </div>
+ 
+          <div id = "birthDay"></div>
+          
+        </div>
+        <div class = "col s12">
           <div id = "movieInfo"></div>
+          
+        </div>
+        <div class = "col s8">
+          <div id = "actorBio"></div>
         </div>
       </div>
     </div>
-
+    <div>
+      <p id = "reviewTitle"></p>
+      <a target = "_blank" id = "movieReview" href = "" ></a>
+    </div>
+    
     
 
 
