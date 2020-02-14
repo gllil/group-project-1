@@ -1,101 +1,174 @@
-<!DOCTYPE html>
-<html>
-  <head>
+const googleAPI = "AIzaSyAPYPaD6KUcr9TJRJKDH80BXOuyc1trMVM";
+const googleAPI2 = "AIzaSyDertWPMLprqokh3GH_JSEmZr_2v9Uz7xU";
+const movieAPI = "766b047e79a6c5e6f6421d09567397ca";
+const NYT_API ="Gu7WmhhKbLtSXGAj5Pb7hw5QpCcSOTQG"
+const NYT_API_MOVIES = "d4vyF8ugAJcWXxzo71KTeJlBYsmrUGto"
+const movieBaseURL = "https://api.tmdb.org/3/search/person?api_key="+movieAPI+"&query=";
+var idBaseURL = "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US"
+const basePicURL = "https://image.tmdb.org/t/p/w300";
+const basePosterURL = "https://image.tmdb.org/t/p/w92";
+var nameCall = "";
+var map;
+var lat1 = -34.397;
+var long1 = 150.644;
+var city ="New York"
+var id = "1234"
 
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="style.css"  media="screen,projection"/>
+function initMap(){
+  centerMap(city);
+}
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+function centerMap(city) {
+  var geocoder = new google.maps.Geocoder();
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 0, lng: 0},
+    zoom: 8,
+    fullscreenControl: false,
+    linksControl: false,
+    addressControl: false,
+    zoomControl: false,
+    enableCloseButton: false
 
-  <!-- Compiled and minified CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-   <!-- Compiled and minified JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-   <!--Font awesome-->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-   <link rel="stylesheet" href="style.css">
-
-  
-
-  </head>
-
-  <body>
-
-    <!--JavaScript at end of body for optimized loading-->
+  });
+  geocoder.geocode({'address': city}, function(results, status) {
+    if (status === 'OK') {
+      map.setCenter(results[0].geometry.location);
     
+    } else {
+      toastAlert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
 
-    <!-- <div class="container"> -->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="nav-extended">
+// sample google call:
+// https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
 
-                  <div class="nav-content center-align">
-                    <span class="nav-title">Actor Profile</span>
-                    
-                  </div>
+// sample themoviedb call
+// https://api.themoviedb.org/3/movie/550?api_key=766b047e79a6c5e6f6421d09567397ca
 
-                  <div class="row">
-                    <form class="col s12 actorName">
-                      <div class="row">
-                        <div class="input-field col s6">
-                          <input id="actorName" type="text"
-                          class="validate">
-                          <label for="actorName">Actor Search</label>
-                        
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                    
-                    
-                </nav>
-            </div>
-        </div>
+//sample themoviedb pic call
+//https://image.tmdb.org/t/p/w185/xxPMucou2wRDxLrud8i2D4dsywh.jpg
 
+//Powered by THE MOVIE DB attribution
+//https://www.themoviedb.org/assets/2/v4/logos/408x161-powered-by-rectangle-green-bb4301c10ddc749b4e79463811a68afebeae66ef43d17bcfd8ff0e60ded7ce99.png
+
+
+// Gracenote Developer API: vm845dhcs5gawes2rtbuskgb
+
+//wolfram api:3LX6GV-QWQVKLWGK8
+// http://api.wolframalpha.com/v2/query?input=pi&appid=3LX6GV-QWQVKLWGK8
+//nameCall = $("#actorName").text();
+
+function toastAlert(str){
+    M.toast({html:str});
+}
+
+
+function addPercent(name){
+    return name.trim().replace(" ", "%20").toLowerCase(); 
+}
+
+function addPlus(name){
+    return name.trim().replace(" ", "+").toLowerCase();
+}
+
+$(".actorName").on("submit", function(e){
+    nameCall = $("#actorName").val();
+    nameCall1 = addPercent(nameCall);
+    nameCall2 = addPlus(nameCall);
+    tmdbURL = movieBaseURL + nameCall1;
+    e.preventDefault();
+    //e.stopPropagation();
+
+    $.ajax({
+        url: tmdbURL,
+        method: "GET"
+    }).then(function(resp1){
         
-    <!-- </div> -->
-    <div class = "container-fluid">
-      <div class = "row">
-        <div class = "col s2">
-          <!--<img style = "display: none" id = "actorPic"></img>-->
+        if(resp1.total_results===0){
+            toastAlert("No Such Actor");
+        } else {
 
 
-          <div class="card-image waves-effect waves-block waves-light">
-          <div style = "height: 200px; width: 200px; display: none" id = "map"></div>
-        </div>
-        <div class="card-content">
-          <span style="font-size: 110%" class="card-title activator grey-text text-darken-4" id ="homeTown"></span>
-        
-        </div>
- 
-          <div id = "birthDay"></div>
-          
-        </div>
-        <div class = "col s12">
-          <div id = "movieInfo"></div>
-          
-        </div>
-        <div class = "col s8">
-          <div id = "actorBio"></div>
-        </div>
-      </div>
+        console.log(resp1);
+        picJPG_URL = resp1.results[0].profile_path;
+
+        /*$("#actorPic").attr("src",basePicURL+picJPG_URL);
+        $("#actorPic").attr("style", "display:block");*/
+        }
+
+        $("#movieInfo").empty();
+        for(i=0; i<resp1.results[0].known_for.length; i++){
+
+    htmlBlank = `
+              
+    <div class="card-image waves-effect waves-block waves-light">
+      <img style="width:90%" class="activator" src="`+basePosterURL+resp1.results[0].known_for[i].poster_path+`">
     </div>
-    <div>
-      <p id = "reviewTitle"></p>
-      <a target = "_blank" id = "movieReview" href = "" ></a>
+    <div class="card-content">
+      <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
+      <p>`+"Release Date: "+ resp1.results[0].known_for[i].release_date + `</p>
     </div>
-    
-    
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">`+resp1.results[0].known_for[i].title+`<i class="material-icons right">close</i></span>
+      <p>`+ resp1.results[0].known_for[i].overview +`</p>
+    </div>`
+           
+
+            newDiv = $("<div>").html(htmlBlank).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+
+            $("#movieInfo").append(newDiv);
+        }
+
+        var id = resp1.results[0].id;
+        console.log(id);
+        $.ajax({
+            url: "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US",
+            method:"GET"
+        }).then(function(resp2){
+            htmlAct = `
+            <div class="card-image waves-effect waves-block waves-light">
+            <img style="width:90%; display:block" class="activator" src="`+basePicURL+picJPG_URL+`">
+          </div>
+          <div class="card-content">
+            <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ nameCall +`<i class="material-icons right">more_vert</i></span>
+            <p>`+"Birthday: "+ resp2.birthday + `</p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">`+nameCall+`<i class="material-icons right">close</i></span>
+            <p>`+ resp2.biography +`</p>
+            <div style = "height: 200px; width: 200px; display: block" id = "map"></div>
+            <span style="font-size: 110%" id ="homeTown"></span>
+          </div>
+            `
+            $("#tempMap").empty();
+            newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+            $("#movieInfo").prepend(newDiv2);
+
+            city=resp2.place_of_birth;
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src = "script.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDertWPMLprqokh3GH_JSEmZr_2v9Uz7xU&callback=initMap" type="text/javascript"></script>
-  </body>
+            if(city){
 
-</html>
+                centerMap(city);
+
+                $("#homeTown").text("Birthplace: "+city);
+            } else {console.log("no city");}
+        }).catch(function(err2){console.log(err2)});
+
+        //+nameCall2+
+        nytQuery = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query="+nameCall2+"&api-key="+NYT_API_MOVIES;
+        $.ajax({
+            url: nytQuery,
+            method:"GET"
+        }).then(function(resp3){
+            console.log(resp3);
+            $("#reviewTitle").text(resp3.results[0].display_tile);
+            $("#movieReview").text(resp3.results[0].link.suggested_link_text);
+            $("#movieReview").attr("href", resp3.results[0].link.url);
+        })
+
+    }).catch(function(err1){
+        console.log(err1);
+    });
+});
