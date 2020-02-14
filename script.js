@@ -14,6 +14,49 @@ var long1 = 150.644;
 var city ="New York"
 var id = "1234"
 
+function noLeadZero(datePart){
+  if(datePart[0]==="0") {
+    datePart = datePart.slice(1);
+  };
+  return datePart;
+
+}
+
+function formatDate(dateStr){
+  mnthObj ={"1":"January", "2":"February", "3":"March", "4":"April", "5":"May", "6":"June", "7":"July", "8":"August", "9":"September", "10":"October",  "11":"November", "12":"December"}
+  dateArray = dateStr.split("-");
+  dateArray[1] = noLeadZero(dateArray[1])
+  dateArray[2]= noLeadZero(dateArray[2])
+  console.log(dateArray);
+  console.log(mnthObj[dateArray[1]]+" "+ dateArray[2]+", "+dateArray[0])
+  return mnthObj[dateArray[1]]+" "+ dateArray[2]+", "+dateArray[0];
+}
+
+function initMap(){
+  centerMap(city);
+}
+
+function centerMap(city) {
+  var geocoder = new google.maps.Geocoder();
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 0, lng: 0},
+    zoom: 8,
+    fullscreenControl: false,
+    linksControl: false,
+    addressControl: false,
+    zoomControl: false,
+    enableCloseButton: false
+
+  });
+  geocoder.geocode({'address': city}, function(results, status) {
+    if (status === 'OK') {
+      map.setCenter(results[0].geometry.location);
+    
+    } else {
+      toastAlert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
 
 // sample google call:
 // https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
@@ -38,30 +81,6 @@ function toastAlert(str){
     M.toast({html:str});
 }
 
-function initMap(){
-    centerMap(city);
-}
-function centerMap(city) {
-    var geocoder = new google.maps.Geocoder();
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 0, lng: 0},
-      zoom: 8,
-      fullscreenControl: false,
-      linksControl: false,
-      addressControl: false,
-      zoomControl: false,
-      enableCloseButton: false
-
-    });
-    geocoder.geocode({'address': city}, function(results, status) {
-      if (status === 'OK') {
-        map.setCenter(results[0].geometry.location);
-      
-      } else {
-        toastAlert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
-  }
 
 function addPercent(name){
     return name.trim().replace(" ", "%20").toLowerCase(); 
@@ -106,7 +125,7 @@ $(".actorName").on("submit", function(e){
     </div>
     <div class="card-content">
       <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
-      <p>`+"Release Date: "+ resp1.results[0].known_for[i].release_date + `</p>
+      <p>`+"Release Date: "+ formatDate(resp1.results[0].known_for[i].release_date) + `</p>
     </div>
     <div class="card-reveal">
       <span class="card-title grey-text text-darken-4">`+resp1.results[0].known_for[i].title+`<i class="material-icons right">close</i></span>
@@ -131,28 +150,27 @@ $(".actorName").on("submit", function(e){
           </div>
           <div class="card-content">
             <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ nameCall +`<i class="material-icons right">more_vert</i></span>
-            <p>`+"Birthday: "+ resp2.birthday + `</p>
+            <p>`+"Birthday: "+ formatDate(resp2.birthday) + `</p>
           </div>
           <div class="card-reveal">
             <span class="card-title grey-text text-darken-4">`+nameCall+`<i class="material-icons right">close</i></span>
             <p>`+ resp2.biography +`</p>
+            <div style = "height: 200px; width: 200px; display: block" id = "map"></div>
+            <span style="font-size: 110%" id ="homeTown"></span>
           </div>
             `
+            $("#tempMap").empty();
             newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
             $("#movieInfo").prepend(newDiv2);
 
-            console.log(resp2);
-            /*$("#birthDay").text(resp2.birthday);
-            console.log(resp2.place_of_birth);*/
             city=resp2.place_of_birth;
-            /*console.log("city")
-            console.log(city);
-            $("#actorBio").text("Actor's Bio: "+resp2.biography);*/
+
+
             if(city){
+
                 centerMap(city);
 
                 $("#homeTown").text("Birthplace: "+city);
-                $("#map").attr("style", "height:200px", "width:200px", "display:block");
             } else {console.log("no city");}
         }).catch(function(err2){console.log(err2)});
 
