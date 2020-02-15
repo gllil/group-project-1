@@ -38,6 +38,17 @@ function toastAlert(str){
     M.toast({html:str});
 }
 
+function titleCase(s){
+  s=s.toLowerCase().trim();
+
+  l = s.split(" ");
+  for(i=0; i<l.length; i++){
+      l[i] = l[i][0].toUpperCase() + l[i].slice(1);
+  };
+  s = l.join(" ");
+  return s;
+}
+
 function initMap(){
     centerMap(city);
 }
@@ -89,11 +100,17 @@ function formatDate(dateStr){
   return mnthObj[dateArray[1]]+" "+ dateArray[2]+", "+dateArray[0];
 }
 
+$(document).ready(function(){
+  $('.collapsible').collapsible();
+ });
+
+
 $(".actorName").on("submit", function(e){
-    nameCall = $("#actorName").val();
+    nameCall = titleCase($("#actorName").val());
     nameCall1 = addPercent(nameCall);
     nameCall2 = addPlus(nameCall);
     tmdbURL = movieBaseURL + nameCall1;
+    $("#actorName").val("");
     e.preventDefault();
     //e.stopPropagation();
 
@@ -179,10 +196,13 @@ $(".actorName").on("submit", function(e){
             url: nytQuery,
             method:"GET"
         }).then(function(resp3){
- 
-            $("#reviewTitle").text(resp3.results[0].display_tile);
-            $("#movieReview").text(resp3.results[0].link.suggested_link_text);
-            $("#movieReview").attr("href", resp3.results[0].link.url);
+          console.log(resp3);
+
+          $("#headerTitle").text(nameCall + " in the news");
+          $("#reviewTitle").text(resp3.results[0].display_title+": "+resp3.results[0].summary_short);
+          $("#movieReview").text(resp3.results[0].link.suggested_link_text);
+          $("#movieReview").attr("href", resp3.results[0].link.url);
+          $("#review").attr("style", "display:block");
         })
 
     }).catch(function(err1){
