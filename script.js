@@ -142,6 +142,7 @@ $(".actorName").on("submit", function(e){
             url: "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US",
             method:"GET"
         }).then(function(resp2){
+            $("#tempMap").empty();
             htmlAct = `
             <div class="card-image waves-effect waves-block waves-light">
             <img style="width:90%; display:block" class="activator" src="`+basePicURL+picJPG_URL+`">
@@ -153,6 +154,8 @@ $(".actorName").on("submit", function(e){
           <div class="card-reveal">
             <span class="card-title grey-text text-darken-4">`+nameCall+`<i class="material-icons right">close</i></span>
             <p>`+ resp2.biography +`</p>
+            <div id = "map" style = "height: 200px; width: 200px; display: block" ></div>
+            <span style="font-size: 110%" id ="homeTown"></span>
           </div>
             `
             newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
