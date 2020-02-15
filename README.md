@@ -18,6 +18,8 @@ Agile software development - Based on our combined effort in developing software
 
 
 # Challenges
+intergrating back and front end
+Getting astetics in line with our vision
 
 
 # Demo
