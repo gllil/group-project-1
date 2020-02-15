@@ -122,8 +122,8 @@ $(".actorName").on("submit", function(e){
       <img style="width:90%" class="activator" src="`+basePosterURL+resp1.results[0].known_for[i].poster_path+`">
     </div>
     <div class="card-content">
-      <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
-      <p>`+"Release Date: "+ formatDate(resp1.results[0].known_for[i].release_date) + `</p>
+      <span style="font-size: 110%; line-height:18px" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
+      <p style="font-size: small">`+"Release Date: "+ formatDate(resp1.results[0].known_for[i].release_date) + `</p>
     </div>
     <div class="card-reveal">
       <span class="card-title grey-text text-darken-4">`+resp1.results[0].known_for[i].title+`<i class="material-icons right">close</i></span>
