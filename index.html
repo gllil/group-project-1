@@ -11,7 +11,6 @@
   <!-- Compiled and minified CSS -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <!-- Compiled and minified JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
    <!--Font awesome-->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -83,15 +82,25 @@
         </div>
       </div>
     </div>
-    <div>
-      <p id = "reviewTitle"></p>
-      <a target = "_blank" id = "movieReview" href = "" ></a>
+
+    <div id="review" style="display:none">
+      <ul class = "collapsible">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">news</i><p id = "headerTitle"></p></div>
+          <div class="collapsible-body">
+            <p id = "reviewTitle"></p>
+            <a target = "_blank" id = "movieReview" href = "" ></a>
+          </div>
+  
+        </li>
+      </ul>
     </div>
     
     
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script type="text/javascript" src = "script.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDertWPMLprqokh3GH_JSEmZr_2v9Uz7xU&callback=initMap" type="text/javascript"></script>
   </body>
