@@ -15,8 +15,10 @@ Agile software development - Based on our combined effort in developing software
 
 
 # Demo
+Checkout a live demo here!
 
 
 
 # License
+This product is licensed under MIT.
 
