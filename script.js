@@ -71,6 +71,24 @@ function addPlus(name){
     return name.trim().replace(" ", "+").toLowerCase();
 }
 
+function noLeadZero(datePart){
+  if(datePart[0]==="0") {
+    datePart = datePart.slice(1);
+  };
+  return datePart;
+
+}
+
+function formatDate(dateStr){
+  mnthObj ={"1":"January", "2":"February", "3":"March", "4":"April", "5":"May", "6":"June", "7":"July", "8":"August", "9":"September", "10":"October",  "11":"November", "12":"December"}
+  dateArray = dateStr.split("-");
+  dateArray[1] = noLeadZero(dateArray[1])
+  dateArray[2]= noLeadZero(dateArray[2])
+  console.log(dateArray);
+  console.log(mnthObj[dateArray[1]]+" "+ dateArray[2]+", "+dateArray[0])
+  return mnthObj[dateArray[1]]+" "+ dateArray[2]+", "+dateArray[0];
+}
+
 $(".actorName").on("submit", function(e){
     nameCall = $("#actorName").val();
     nameCall1 = addPercent(nameCall);
@@ -89,8 +107,7 @@ $(".actorName").on("submit", function(e){
         } else {
 
 
-        console.log(resp1);
-        picJPG_URL = resp1.results[0].profile_path;
+         picJPG_URL = resp1.results[0].profile_path;
 
         /*$("#actorPic").attr("src",basePicURL+picJPG_URL);
         $("#actorPic").attr("style", "display:block");*/
@@ -106,7 +123,7 @@ $(".actorName").on("submit", function(e){
     </div>
     <div class="card-content">
       <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
-      <p>`+"Release Date: "+ resp1.results[0].known_for[i].release_date + `</p>
+      <p>`+"Release Date: "+ formatDate(resp1.results[0].known_for[i].release_date) + `</p>
     </div>
     <div class="card-reveal">
       <span class="card-title grey-text text-darken-4">`+resp1.results[0].known_for[i].title+`<i class="material-icons right">close</i></span>
@@ -120,7 +137,7 @@ $(".actorName").on("submit", function(e){
         }
 
         var id = resp1.results[0].id;
-        console.log(id);
+
         $.ajax({
             url: "https://api.themoviedb.org/3/person/"+ id +"?api_key=" + movieAPI + "&language=en-US",
             method:"GET"
@@ -131,7 +148,7 @@ $(".actorName").on("submit", function(e){
           </div>
           <div class="card-content">
             <span style="font-size: 110%" class="card-title activator grey-text text-darken-4">`+ nameCall +`<i class="material-icons right">more_vert</i></span>
-            <p>`+"Birthday: "+ resp2.birthday + `</p>
+            <p>`+"Birthday: "+ formatDate(resp2.birthday) + `</p>
           </div>
           <div class="card-reveal">
             <span class="card-title grey-text text-darken-4">`+nameCall+`<i class="material-icons right">close</i></span>
@@ -141,13 +158,10 @@ $(".actorName").on("submit", function(e){
             newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
             $("#movieInfo").prepend(newDiv2);
 
-            console.log(resp2);
-            /*$("#birthDay").text(resp2.birthday);
-            console.log(resp2.place_of_birth);*/
+
+ 
             city=resp2.place_of_birth;
-            /*console.log("city")
-            console.log(city);
-            $("#actorBio").text("Actor's Bio: "+resp2.biography);*/
+ 
             if(city){
                 centerMap(city);
 
@@ -162,7 +176,7 @@ $(".actorName").on("submit", function(e){
             url: nytQuery,
             method:"GET"
         }).then(function(resp3){
-            console.log(resp3);
+ 
             $("#reviewTitle").text(resp3.results[0].display_tile);
             $("#movieReview").text(resp3.results[0].link.suggested_link_text);
             $("#movieReview").attr("href", resp3.results[0].link.url);
