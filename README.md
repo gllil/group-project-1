@@ -3,8 +3,10 @@
 # Description
 As part of our first group project, we decided to capitalize on the concept of a robust actor search engine that gives the user a information from the actors birthplace to top movies they were featured in. We designed this app with simplicity in mind and implimented a robust but user friendly interface that skips the clutter and get straight to the point. So if you're like us, and love movies, sit back, relax and browse over 100,000 profiles of talented actors and atresses. Welcome to Actor Profiler.
 
-# Getting Started
-# Prerequisites
+# Getting Started / Prerequisites
+You will need the lastest version of your web browers. Google Chrome is recommended but not required.
+Adobe Flash (Chrome users dont need this.)
+
 
 #  Technologies
 
@@ -17,15 +19,8 @@ Git branching workflow - the idea here is that all feature development should ta
 
 Agile software development - Based on our combined effort in developing software. Having competent people working together efficiently is key. Good documentation is useful in helping our developers understand how the software is built. This includes a project plan, clean code, etc.
 
-
-# Challenges
-intergrating back and front end
-Getting astetics in line with our vision
-
-
 # Demo
 Checkout a live demo here!
-
 
 
 # License
