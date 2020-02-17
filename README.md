@@ -1,4 +1,4 @@
-! [Screenshot](Denzel.png)
+![Screenshot](Denzel.png)
 
 # Description
 As part of our first group project, we decided to capitalize on the concept of a robust actor search engine that gives the user a information from the actors birthplace to top movies they were featured in. We designed this app with simplicity in mind and implimented a robust but user friendly interface that skips the clutter and get straight to the point. So if you're like us, and love movies, sit back, relax and browse over 100,000 profiles of talented actors and atresses. Welcome to Actor Profiler.
