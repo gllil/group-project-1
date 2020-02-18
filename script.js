@@ -131,7 +131,7 @@ $(".actorName").on("submit", function(e){
     htmlBlank = `
               
     <div class="card-image waves-effect waves-block waves-light">
-      <img style="width:90%" class="activator" src="`+basePosterURL+resp1.results[0].known_for[i].poster_path+`">
+      <img style="display:block" class="activator" src="`+basePosterURL+resp1.results[0].known_for[i].poster_path+`">
     </div>
     <div class="card-content">
       <span style="font-size: 110%; line-height:18px" class="card-title activator grey-text text-darken-4">`+ resp1.results[0].known_for[i].title +`<i class="material-icons right">more_vert</i></span>
@@ -143,7 +143,7 @@ $(".actorName").on("submit", function(e){
     </div>`
            
 
-            newDiv = $("<div>").html(htmlBlank).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+            newDiv = $("<div>").html(htmlBlank).attr("class","card col s12 m3").attr("style", "height: 550px");
 
             $("#movieInfo").append(newDiv);
         }
@@ -170,7 +170,7 @@ $(".actorName").on("submit", function(e){
             <span style="font-size: 110%" id ="homeTown"></span>
           </div>
             `
-            newDiv2 = $("<div>").html(htmlAct).attr("class","card").attr("style", "width:300px; height:500px; float:left; margin-right: 2%");
+            newDiv2 = $("<div>").html(htmlAct).attr("class","card col s12 m3").attr("style", "height: 550px");
             $("#movieInfo").prepend(newDiv2);
 
 
