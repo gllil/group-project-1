@@ -192,12 +192,19 @@ $(".actorName").on("submit", function(e){
             method:"GET"
         }).then(function(resp3){
           console.log(resp3);
-
-          $("#headerTitle").text(nameCall + " in the news");
-          $("#reviewTitle").text(resp3.results[0].display_title+": "+resp3.results[0].summary_short);
-          $("#movieReview").text(resp3.results[0].link.suggested_link_text);
-          $("#movieReview").attr("href", resp3.results[0].link.url);
-          $("#review").attr("style", "display:block");
+           if(resp3.results[0].length !=0){
+              $("#headerTitle").text(nameCall + " in the news");
+              $("#reviewTitle").text(resp3.results[0].display_title+": "+resp3.results[0].summary_short);
+              $("#movieReview").text(resp3.results[0].link.suggested_link_text);
+              $("#movieReview").attr("href", resp3.results[0].link.url);
+              $("#review").attr("style", "display:block");
+           } else {
+              $("#headerTitle").text("No News Items");
+              $("#reviewTitle").text("");
+              $("#movieReview").text("");
+              $("#movieReview").attr("href", "");
+              $("#review").attr("style", "display:none");
+           }
         })
 
     }).catch(function(err1){
