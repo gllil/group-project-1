@@ -192,7 +192,7 @@ $(".actorName").on("submit", function(e){
             method:"GET"
         }).then(function(resp3){
           console.log(resp3);
-           if(resp3.results[0].length !=0){
+           if(resp3.has_more){
               $("#headerTitle").text(nameCall + " in the news");
               $("#reviewTitle").text(resp3.results[0].display_title+": "+resp3.results[0].summary_short);
               $("#movieReview").text(resp3.results[0].link.suggested_link_text);
