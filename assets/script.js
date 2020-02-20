@@ -116,6 +116,11 @@ $(".actorName").on("submit", function(e){
         
         if(resp1.total_results===0){
             toastAlert("No Such Actor");
+              $("#headerTitle").text("No News Items");
+              $("#reviewTitle").text("");
+              $("#movieReview").text("");
+              $("#movieReview").attr("href", "");
+              $("#review").attr("style", "display:none");
         } else {
 
 
